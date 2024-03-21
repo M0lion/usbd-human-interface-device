@@ -23,6 +23,7 @@
 //! # use usb_device::class_prelude::*;
 //! # use usb_device::prelude::*;
 //! # use usb_device::UsbDirection;
+//! # use usb_device::device::StringDescriptors;
 //! #
 //! # trait InputPin {
 //! #     fn is_high(&self) -> Result<bool, core::convert::Infallible>;
@@ -101,10 +102,18 @@
 //!     )
 //!     .build(&usb_alloc);
 //!
+//! let stringDescriptors = StringDescriptors::new(LangID::EN)
+//!    .manufacturer("usbd-human-interface-device")
+//!    .product("NKRO Keyboard")
+//!    .serial_number("TEST");
+//!
+//! let descriptors = vec![
+//!    stringDescriptors,
+//! ];
+//!
 //! let mut usb_dev = UsbDeviceBuilder::new(&usb_alloc, UsbVidPid(0x1209, 0x0001))
-//!     .manufacturer("usbd-human-interface-device")
-//!     .product("NKRO Keyboard")
-//!     .serial_number("TEST")
+//!     .strings(&descriptors)
+//!     .unwrap()
 //!     .build();
 //!
 //! let mut tick_timer = timer.count_down();
